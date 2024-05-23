@@ -19,6 +19,8 @@ func (e *EngineProcessor) Process(cp qmq.EngineComponentProvider) {
 		select {
 		case <-quit:
 			return
+		case c := <-cp.WithConsumer("event-processor:cmd:process-event").Pop():
+			m := c.Data().(*qmq.Message)
 		}
 	}
 }
